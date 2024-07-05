@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vep_project"
+version = "0.0.1"
+authors = [
+  { name="Luka Culibrk", email="luculibrk@gmail.com" },
+]
+description = "Annotates VCFs using ENSEMBL's VEP API"
+readme = "README.md"
+requires-python = "<=3.11,>=3.6"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Operating System :: OS Independent",
+]
+
+[tool.setuptools]
+packages = ["annotator"]
+
+[project.urls]
+Homepage = "https://github.com/lculibrk/vep_project/"
+Issues = "https://github.com/lculibrk/vep_project/issues"

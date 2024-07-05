@@ -1,0 +1,5 @@
+name: vep_project
+
+dependencies:
+    - python>=3.6
+    - python<=3.11
