@@ -10,7 +10,7 @@ class test_load_vcf(unittest.TestCase):
         """
         vcf_path = os.path.join(os.path.dirname(__file__), "data", "platypus.vcf")
         vcf_file = vcf.read_vcf(vcf_path)
-        self.assertEqual(len(vcf_file), 14)
+        self.assertEqual(len(vcf_file), 16)
 
     def test_load_empty_vcf(self):
         """
@@ -28,7 +28,7 @@ class test_parse_vcf(unittest.TestCase):
         vcf_path = os.path.join(os.path.dirname(__file__), "data", "platypus.vcf")
         vcf_file = vcf.read_vcf(vcf_path)
         vcf_parsed = vcf.parse_vcf(vcf_file, "NR", "NV")
-        self.assertEqual(len(vcf_parsed), 13)
+        self.assertEqual(len(vcf_parsed), 15)
     def test_parse_empty_vcf(self):
         """
         Test parsing an empty VCF
