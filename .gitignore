@@ -1,3 +1,5 @@
 env/
 vep_project.egg-info/
 build/
+tests/__pycache__
+*__pycache__
