@@ -33,7 +33,7 @@ docker pull lculibrk/vep_project
 ## How to run this tool
 ### Execution:
 ```
-./annotator.py -i INPUT -o OUTPUT -d DEPTH_FIELD -v VARIANT_DEPTH_FIELD
+./annotator.py -i INPUT -o OUTPUT -d DEPTH_FIELD -v VARIANT_DEPTH_FIELD [-g | --per-gene | --no-per-gene]
 ```
 ### Parameters:
 
@@ -43,6 +43,7 @@ docker pull lculibrk/vep_project
 | OUTPUT | Path to the desired output file |
 | DEPTH_FIELD | the FORMAT field in your VCF that corresponds to the total depth of the locus |
 | VARIANT_DEPTH_FIELD | the FORMAT field in your VCF that corresponds to the variant allele depth |
+| per-gene | whether to annotate by transcript (default, --no-per-gene) or per gene (-g, --per-gene) |
 
 
 ### Example using provided data
