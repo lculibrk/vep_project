@@ -1,5 +1,9 @@
+""" 
+This module implements a couple of custom exceptions. Their names are a bit more descriptive than
+default exceptions.
+"""
 class MalformedDataError(Exception):
-    pass
+    "Raise this exception for data that are malformed"
 
 class RequestError(Exception):
-    pass
+    "Raise this exception when an API call returns a non-200 code"
