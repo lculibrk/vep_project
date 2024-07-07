@@ -34,13 +34,11 @@ def get_variant_annotations(variant_lines, by_gene = False) -> list:
     params = {"variant_class": "true", "hgvs": "true", "per_gene":per_gene}
 
     ## Post the request
-    print("...")
     r = requests.post(url+ext, headers = headers, data = query_string, params = params)
 
     ## Throw an error if the request is an error
     if r.status_code != 200:
         raise annotator.exceptions.RequestError(f"API request failed with status {r.status_code}! See below for the data given to the API:\n{query_string}")
-    print("Processed 200 variants")
     return(r.json())
 
 def get_chunked_annotations(variant_lines, chunk_size = 200, by_gene = False):

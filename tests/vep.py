@@ -140,3 +140,14 @@ class test_annotate_variants(unittest.TestCase):
 
 class test_main(unittest.TestCase):
     def test_correct_rows(self):
+        """
+        Test that the final output has the correct number of rows and columns
+        """
+        ## This should return 23 rows
+        output = main.run_annotator(os.path.join(os.path.dirname(__file__), "data", "platypus.vcf"), "/dev/null", "NR", "NV")
+        self.assertEqual(len(output), 23)
+        it = iter(output)
+        the_len = len(next(it))
+        self.assertTrue(all(len(l) == the_len for l in it))
+
+
