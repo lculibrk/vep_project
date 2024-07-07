@@ -32,9 +32,9 @@ def parse_vcf(vcf, total_cov_field, var_cov_field, sample_name = None) -> list:
         sample_name (str):     the name of the sample to be processed in the VCF. If not specified, the program will take the first column after FORMAT. Default: None
 
     Returns:
-        A list of lists, in this format:
-        [CHROM, POS, REF, ALT, FILTER, N_VARIANT_READS, TOTAL_READS]
+        A list of lists, in this format: [CHROM, POS, REF, ALT, FILTER, N_VARIANT_READS, TOTAL_READS]
     """
+    ## Extract VCF column names
     vcf_colnames = vcf[0]
     vcf = vcf[1:]
 
@@ -77,4 +77,30 @@ def parse_vcf(vcf, total_cov_field, var_cov_field, sample_name = None) -> list:
         ] 
             for (v, geno, fmt) in zip(vcf, genotype_column, fmt_column)
     ]
+    ## Separate multiallelic variants from non-multiallelic variants
+    tbl_nonmultiallelic = [element for element in tbl if "," not in element[3]]
+    tbl_multiallelic = [element for element in tbl if "," in element[3]]
+    
+    ## Loop over multiallelic sites, split by comma and create a new sublist for each allele
+    tbl_multiallelic = [
+        [
+            [
+                element[0], 
+                element[1], 
+                element[2], 
+                allele, 
+                element[4], 
+                var, 
+                total
+            ]
+            for allele, var, total in zip(element[3].split(","), element[5].split(","), element[6].split(","))
+        ] for element in tbl_multiallelic
+    ]
+
+    ## Flatten the list of lists of lists
+    tbl_multiallelic = [element for sublist in tbl_multiallelic for element in sublist]
+    
+    ## Concatenate the list back together and sort by chrom, pos
+    tbl = tbl_nonmultiallelic + tbl_multiallelic
+    tbl.sort(key = lambda x: (x[0], int(x[1])))
     return(tbl)
