@@ -51,6 +51,14 @@ def main():
         help = "Name of the FORMAT field that describes the variant read depth of the locus.",
         type = str)
     args = parser.parse_args()
+    if not args.input:
+        raise ValueError("You have not specified an input")
+    elif not args.output:
+        raise ValueError("You have not specified an output")
+    elif not args.total_depth:
+        raise ValueError("You have not specified the total depth field")
+    elif not args.variant_depth:
+        raise ValueError("You have not specified the variant read depth field")
     annotator.main.run_annotator(
         args.input,
         args.output,
