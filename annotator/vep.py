@@ -1,27 +1,37 @@
+""" 
+This module handles VEP API calls. It implements functions for querying the Ensembl VEP API with
+variants processed by the vcf module.
+"""
+
 import requests
 import annotator.exceptions
 
 def get_variant_annotations(variant_lines, by_gene = False) -> list:
     """
-    Takes in a list of parsed variant lines in the format returned by vcf.parse_vcf(), performs a VEP API call and returns the resulting JSON for each variant. 
+    Takes in a list of parsed variant lines in the format returned by vcf.parse_vcf(), performs a
+    VEP API call and returns the resulting JSON for each variant. 
 
     Args:
         variant_lines (list):  list of variant lines (lists), as returned from vcf.parse_vcf() 
-        by_gene (boolean):     whether to query for impact by transcript (default, False) or the highest impact per gene (True). Default: False
+        by_gene (boolean):     whether to query for impact by transcript (default, False) or the
+        highest impact per gene (True). Default: False
 
     Returns:
         A list of API returns, one per input element. 
     """
-    ## Error handling of empty VCFs is not this function's job, so we return an empty list for empty variants
+    ## Error handling of empty VCFs is not this function's job, so we return an empty list for empty
+    ## variants
     if len(variant_lines) == 0:
-        return([])
+        return []
     ## hardcoded REST API URL/headers
     url = "https://rest.ensembl.org"
     ext = "/vep/homo_sapiens/region"
     headers={ "Content-Type" : "application/json", "Accept" : "application/json"}
-    ## Build the query string. Per VEP documentation, format is same as VCF 4.0: CHROM POS ID REF ALT QUAL FILTER INFO. 
-    ## Query string is JSON formatted and space-separated. Sub a period in for ID, QUAL, FILTER, INFO. Concatenate the
-    ## resulting list elements with a ", ", and then add the head and tail of the json with string addition.
+    ## Build the query string. Per VEP documentation, format is same as VCF 4.0: CHROM POS ID REF
+    ## ALT QUAL FILTER INFO.
+    ## Query string is JSON formatted and space-separated. Sub a period in for ID, QUAL, FILTER, 
+    ## INFO. Concatenate the resulting list elements with a ", ", and then add the head and tail 
+    ## of the json with string addition.
     query_string = '", "'.join([f"{line[0]} {line[1]} . {line[2]} {line[3]} . . ." for line in variant_lines])
     query_string = '{ "variants" : ["' + query_string + '" ] }'
 
