@@ -17,7 +17,7 @@ The package requires python, version 3.6-3.11, and `requests`. Two convenient wa
 
 This option requires [conda](https://conda.io/projects/conda/en/latest/user-guide/getting-started.html) to be installed
 ```
-conda env create -n env/ -f environment.yml
+conda env create -p env/ -f environment.yml
 conda activate env/
 pip install ./
 ```
