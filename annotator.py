@@ -15,7 +15,7 @@ Args:
 
 import argparse
 
-## Import sys modules
+## Import annotator modules
 import annotator.vcf
 import annotator.vep
 import annotator.main
