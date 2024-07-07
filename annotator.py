@@ -70,7 +70,8 @@ def main():
         args.input,
         args.output,
         args.total_depth,
-        args.variant_depth
+        args.variant_depth,
+        args.per_gene
     )
 
 if __name__ == "__main__":

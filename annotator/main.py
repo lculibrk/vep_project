@@ -5,7 +5,7 @@ import annotator.vcf
 import annotator.vep
 
 def run_annotator(vcf_path, output, total_cov_field, var_cov_field, sample_name = None,
-                  chunk_size = 200):
+                  by_gene = False, chunk_size = 200):
     """
     Reads and parses the input VCF, makes an API call to Ensembl VEP, annotates variants and 
     returns the resulting JSON
@@ -39,7 +39,9 @@ def run_annotator(vcf_path, output, total_cov_field, var_cov_field, sample_name 
         )
 
     ## Annotate the VCF lines using the received annotations
-    out_list = annotator.vep.annotate_variants(vcf_lines, chunk_size = chunk_size)
+    out_list = annotator.vep.annotate_variants(vcf_lines, 
+                                               chunk_size = chunk_size, 
+                                               by_gene = by_gene)
 
     ## Create output path if it does not exist
     os.makedirs(os.path.dirname(output), exist_ok = True)
