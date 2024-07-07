@@ -1,16 +1,19 @@
 #!/usr/bin/env python
 """
-annotator.py -i INPUT -o OUTPUT -d DEPTH_FIELD -v VARIANT_DEPTH_FIELD
+annotator.py -i INPUT -o OUTPUT -d DEPTH_FIELD -v VARIANT_DEPTH_FIELD [-g <True | False>]
 
 Runs annotator on a specified input VCF, and writes the result to a specified output file.
 
 Args:
-    INPUT (str):               path to the input VCF
-    OUTPUT (str):              path to the output tab-separated file
-    DEPTH_COLUMN (str):        the name of the FORMAT field that specifies total read coverage of
-                               the variant locus
-    VARIANT_DEPTH_FIELD (str): the name of the FORMAT field that specifies variant read coverage of
-                               the variant locus
+    -i  INPUT (str):               path to the input VCF
+    -o  OUTPUT (str):              path to the output tab-separated file
+    -d  DEPTH_COLUMN (str):        the name of the FORMAT field that specifies total read coverage 
+                                   of the variant locus
+    -v  VARIANT_DEPTH_FIELD (str): the name of the FORMAT field that specifies variant read 
+                                   coverage of the variant locus
+    -g  PER_GENE (boolean):        if enabled, annotator will return one gene annotation per 
+                                   variant. Otherwise (by default) will return one annotation per
+                                   transcript
 """
 
 import argparse
@@ -34,31 +37,35 @@ def main():
         "-i", 
         "--input",
         help = "Path to input file. It must be a VCF with a properly formatted header.",
-        type = str)
+        type = str,
+        required = True)
     parser.add_argument(
         "-o",
         "--output", 
         help = "Path to the output tab-separated file. If it does not exist, it will be created.",
-        type = str)
+        type = str,
+        required = True)
     parser.add_argument(
         "-d",
         "--total_depth",
         help = "Name of the FORMAT field that describes the total read depth of the variant locus.",
-        type = str)
+        type = str,
+        required = True)
     parser.add_argument(
         "-v",
         "--variant_depth",
         help = "Name of the FORMAT field that describes the variant read depth of the locus.",
-        type = str)
+        type = str,
+        required = True)
+    parser.add_argument(
+        "-g",
+        "--per-gene",
+        help = "Should annotator output annotations per gene instead of per transcript?",
+        default = False,
+        action = argparse.BooleanOptionalAction
+    )
     args = parser.parse_args()
-    if not args.input:
-        raise ValueError("You have not specified an input")
-    elif not args.output:
-        raise ValueError("You have not specified an output")
-    elif not args.total_depth:
-        raise ValueError("You have not specified the total depth field")
-    elif not args.variant_depth:
-        raise ValueError("You have not specified the variant read depth field")
+
     annotator.main.run_annotator(
         args.input,
         args.output,
